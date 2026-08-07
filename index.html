@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAMMA MAJESTIC</title>
+  <style>
+    /* --- CSS STYLES --- */
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #000000;
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px; /* Perfect width for mobile screens */
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      color: #1e293b;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    /* Search Bar Input */
+    #searchInput {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #searchInput:focus {
+      border-color: #2563eb;
+    }
+
+    /* Platform Cards List */
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+
+    .destination {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 1.05rem;
+    }
+
+    .bus-no {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .platform-tag {
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    /* No Results Text */
+    #noResults {
+      display: none;
+      text-align: center;
+      color: #64748b;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1> NAMMA MAJESTIC</h1>
+    
+    <!-- Search Bar -->
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Where do you want to go? (e.g. Electronic City)"
+    >
+
+    <!-- Destination Cards List -->
+    <div class="card-list" id="cardList">
+      
+      <div class="card">
+        <div>
+          <div class="destination">Electronic City</div>
+          <div class="bus-no">Bus: 356E, 378</div>
+        </div>
+        <div class="platform-tag">Platform 19</div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="destination">Whitefield</div>
+          <div class="bus-no">Bus: 335E, 500 series</div>
+        </div>
+        <div class="platform-tag">Platform 18</div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="destination">Kengeri</div>
+          <div class="bus-no">Bus: 226, 225</div>
+        </div>
+        <div class="platform-tag">Platform 12</div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="destination">Kempegowda Airport (KIA)</div>
+          <div class="bus-no">Bus: KIAS-9</div>
+        </div>
+        <div class="platform-tag">Platform 30</div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="destination">Banashankari</div>
+          <div class="bus-no">Bus: 215, 215C</div>
+        </div>
+        <div class="platform-tag">Platform 15</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">Kr puram </div>
+          <div class="bus-no">Bus: 300H ,317A series  </div>
+        </div>
+        <div class="platform-tag">Platform 31</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">Nelamangla</div>
+          <div class="bus-no">Bus:258 , 258c series </div>
+        </div>
+        <div class="platform-tag">Platform 24</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">peenya</div>
+          <div class="bus-no">Bus: 252,250 series</div>
+        </div>
+        <div class="platform-tag">Platform 22</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">Bannerghatta</div>
+          <div class="bus-no">Bus: 365j series </div>
+        </div>
+        <div class="platform-tag">Platform 19</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">Gorgunteplaya </div>
+          <div class="bus-no">Bus: 400a , 405 serie4s </div>
+        </div>
+        <div class="platform-tag">Platform 21</div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="destination">hebbal </div>
+          <div class="bus-no">Bus: 285 series </div>
+        </div>
+        <div class="platform-tag">Platform 5</div>
+      </div>
+
+    </div>
+
+    <div id="noResults">No matching destination found.</div>
+  </div>
+
+  <!-- --- JAVASCRIPT --- -->
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase().trim();
+      let hasMatches = false;
+
+      cards.forEach(card => {
+        // Search inside both the destination name and bus number
+        const text = card.textContent.toLowerCase();
+
+        if (text.includes(filter)) {
+          card.style.display = 'flex'; // Show card
+          hasMatches = true;
+        } else {
+          card.style.display = 'none';  // Hide card
+        }
+      });
+
+      // Show/hide "No results" message
+      noResults.style.display = hasMatches ? 'none' : 'block';
+    });
+  </script>
+
+</body>
+</html>
